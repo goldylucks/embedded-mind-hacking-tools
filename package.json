@@ -1,0 +1,32 @@
+{
+  "name": "embedded-tools",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "axios": "^0.18.0",
+    "classnames": "^2.2.6",
+    "lodash": "^4.17.10",
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1",
+    "react-markdown": "^3.3.3",
+    "react-scripts": "1.1.4",
+    "react-stars": "^2.2.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "deploy": "surge -d mind-hacking-tools.surge.sh -p build",
+    "precommit": "pretty-quick --staged",
+    "prettier": "prettier --print-width 80 --trailing-comma es5 --write src/**/*.js",
+    "eject": "react-scripts eject"
+  },
+  "devDependencies": {
+    "eslint-plugin-import": "^2.12.0",
+    "eslint-plugin-prettier": "^2.6.0",
+    "husky": "^0.14.3",
+    "prettier": "1.13.5",
+    "pretty-quick": "^1.6.0",
+    "surge": "^0.20.1"
+  }
+}
