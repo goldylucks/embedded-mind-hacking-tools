@@ -15,8 +15,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
     "deploy": "surge -d mind-hacking-tools.surge.sh -p build",
+    "deployExample": "surge -d mind-hacking-tools-example.surge.sh -p parent-example-site",
     "precommit": "pretty-quick --staged",
     "prettier": "prettier --print-width 80 --trailing-comma es5 --write src/**/*.js",
     "eject": "react-scripts eject"
