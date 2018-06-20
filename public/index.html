@@ -2,6 +2,25 @@
 <html lang="en">
 
 <head>
+  <!-- Google Analytics -->
+  <script>
+    window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
+    const isEmbedded = window !== window.parent
+    console.log('isEmbedded', isEmbedded)
+    const gaOptions = isEmbedded
+      ? {
+        referrer: document.referrer.split('/')[2],
+        location: document.referrer,
+      } : {
+        referrer: 'self',
+        location: window.location.href,
+      }
+    console.log('gaOptions', gaOptions)
+    ga('create', 'UA-101088298-2', 'auto', gaOptions);
+    ga('send', 'pageview');
+  </script>
+  <script async src='https://www.google-analytics.com/analytics.js'></script>
+  <!-- End Google Analytics -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color" content="#000000">
@@ -23,7 +42,8 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
     crossOrigin="anonymous" />
   <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet" />
-  <title>React App</title>
+  <title>Mind Hacking Tools</title>
+
 </head>
 
 <body>

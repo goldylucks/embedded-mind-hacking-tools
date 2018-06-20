@@ -13,23 +13,7 @@ class EmbeddedTool extends Component {
     tool: undefined,
   };
   async componentDidMount() {
-    const toolSlug = getToolFromUrl();
-    if (!supportedSlugs.includes(toolSlug)) {
-      this.setState({ isLoaded: true, error: "Tool doesn't exist" });
-      return;
-    }
-    try {
-      const { data: tool } = await axios.get(getToolApiPath(toolSlug));
-      if (tool.hasReview) {
-        tool.steps = tool.steps.concat(reviewSteps);
-      }
-      console.log("tool", tool);
-      this.setState({ isLoaded: true, tool });
-      window.addEventListener("message", this.onMessage);
-    } catch (err) {
-      console.log(err.response);
-      this.setState({ isLoaded: true, error: err.message });
-    }
+    this.fetchTool();
   }
   componentWillUnmount() {
     window.removeEventListener("message", this.onMessage);
@@ -53,9 +37,18 @@ class EmbeddedTool extends Component {
       />
     );
   }
-  onUpdateProgress = (...args) => {
-    console.log("onUpdateProgress", ...args);
-    window.parent.postMessage(...args, "*");
+  onUpdateProgress = multiFormState => {
+    console.log("onUpdateProgress", multiFormState);
+    if (window.parent !== window) {
+      window.parent.postMessage(multiFormState, "*");
+    }
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "Mind Tool",
+      eventAction: "Go To Step",
+      eventLabel: this.state.tool.title,
+      eventValue: Number(multiFormState.currentStepNum),
+    });
   };
   onMessage = evt => {
     try {
@@ -66,8 +59,28 @@ class EmbeddedTool extends Component {
         "error receiving message from parent. make sure you send a stringifed valid json",
         err
       );
+      console.log("onMessage evt that caused the error", evt);
     }
   };
+  async fetchTool() {
+    const toolSlug = getToolFromUrl();
+    if (!supportedSlugs.includes(toolSlug)) {
+      this.setState({ isLoaded: true, error: "Tool doesn't exist" });
+      return;
+    }
+    try {
+      const { data: tool } = await axios.get(getToolApiPath(toolSlug));
+      if (tool.hasReview) {
+        tool.steps = tool.steps.concat(reviewSteps);
+      }
+      console.log("Tool Loaded", tool);
+      this.setState({ isLoaded: true, tool });
+      window.addEventListener("message", this.onMessage);
+    } catch (err) {
+      console.log("Error loading tool", err.response);
+      this.setState({ isLoaded: true, error: err.message });
+    }
+  }
 }
 
 export default EmbeddedTool;
