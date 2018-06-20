@@ -4,7 +4,7 @@ import axios from "axios";
 import reviewSteps from "../MultiStepForm/reviewSteps";
 import MultiStepForm from "../MultiStepForm";
 
-const supportedSlugs = ["mark-b4b-rewind"];
+const supportedSlugs = ["mark-b4b-rewind", "embedded-example"];
 
 class EmbeddedTool extends Component {
   state = {

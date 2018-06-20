@@ -14,6 +14,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "startExample": "http-server ./parent-example-site",
     "build": "react-scripts build",
     "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-prettier": "^2.6.0",
+    "http-server": "^0.11.1",
     "husky": "^0.14.3",
     "prettier": "1.13.5",
     "pretty-quick": "^1.6.0",
