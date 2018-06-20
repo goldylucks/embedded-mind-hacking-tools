@@ -8,6 +8,7 @@ And a demo of a parent site embedding the same tool [here](http://mind-hacking-t
 # Develop
 
 This project uses [create react app](https://github.com/facebook/create-react-app)
+The parent example lives in the [parent-example-site](./parent-example-site) directory.
 
 ```
 $ git clone git@github.com:goldylucks/embedded-mind-hacking-tools.git
@@ -20,15 +21,7 @@ $ npm startExample # starts parent example on http://localhost:8080
 # Deploy
 
 ```
-$ npm run build
 $ npm run deploy
-```
-
-# Deploy parent example
-
-The parent example lives in the [parent-example-site](./parent-example-site) directory.
-
-```
 $ npm run deployExample
 ```
 
