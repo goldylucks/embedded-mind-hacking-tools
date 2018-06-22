@@ -39,7 +39,7 @@
   }
 
   function getIframeSource() {
-    const baseUrl = isProd() ? "http://mind-hacking-tools.surge.sh/tool/" : "http://localhost:3000/tool/"
+    const baseUrl = isProd() ? "https://mind-hacking-tools.surge.sh/tool/" : "http://localhost:3000/tool/"
     const toolSlug = window.location.search.split('?tool=')[1]
     return baseUrl + toolSlug
   }

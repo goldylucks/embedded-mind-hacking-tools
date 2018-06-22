@@ -2,8 +2,8 @@ This project enables embedding the [mind hacking tools](https://www.adamgoldman.
 
 # Demo
 
-See a demo of a tool that can be embedded [here](http://mind-hacking-tools.surge.sh/tool/embedded-example)  
-And a demo of a parent site embedding the same tool [here](http://mind-hacking-tools-example.surge.sh/?tool=embedded-example)
+See a demo of a tool that can be embedded [here](https://mind-hacking-tools.surge.sh/tool/embedded-example)  
+And a demo of a parent site embedding the same tool [here](https://mind-hacking-tools-example.surge.sh/?tool=embedded-example)
 
 # Develop
 
