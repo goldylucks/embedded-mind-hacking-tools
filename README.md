@@ -14,7 +14,7 @@ The parent example lives in the [parent-example-site](./parent-example-site) dir
 $ git clone git@github.com:goldylucks/embedded-mind-hacking-tools.git
 $ cd embedded-mind-hacking-tools
 $ npm install
-$ npm start # starts main project on http://localhost:localhost:3000
+$ npm start # starts main project on http://localhost:3000
 $ npm startExample # starts parent example on http://localhost:8080
 ```
 
