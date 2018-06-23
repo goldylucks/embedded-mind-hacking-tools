@@ -42,13 +42,7 @@ class EmbeddedTool extends Component {
     if (window.parent !== window) {
       window.parent.postMessage(multiFormState, "*");
     }
-    window.ga("send", {
-      hitType: "event",
-      eventCategory: "Mind Tool",
-      eventAction: "Go To Step",
-      eventLabel: this.state.tool.title,
-      eventValue: Number(multiFormState.currentStepNum),
-    });
+    this.trackStepChange(multiFormState);
   };
   onMessage = evt => {
     try {
@@ -66,6 +60,7 @@ class EmbeddedTool extends Component {
     const toolSlug = getToolFromUrl();
     if (!supportedSlugs.includes(toolSlug)) {
       this.setState({ isLoaded: true, error: "Tool doesn't exist" });
+      this.trackToolSlugDoesntExist(toolSlug);
       return;
     }
     try {
@@ -76,10 +71,38 @@ class EmbeddedTool extends Component {
       console.log("Tool Loaded", tool);
       this.setState({ isLoaded: true, tool });
       window.addEventListener("message", this.onMessage);
+      this.trackLoaded();
     } catch (err) {
       console.log("Error loading tool", err.response);
       this.setState({ isLoaded: true, error: err.message });
     }
+  }
+
+  trackLoaded() {
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "Mind Tool",
+      eventAction: "Tool Loaded",
+      eventLabel: this.state.tool.title,
+    });
+  }
+
+  trackToolSlugDoesntExist(toolSlug) {
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "Mind Tool",
+      eventAction: "Tool slug doesn't exist",
+      eventLabel: toolSlug,
+    });
+  }
+
+  trackStepChange(multiFormState) {
+    window.ga("send", {
+      hitType: "event",
+      eventCategory: "Mind Tool",
+      eventAction: `Go To Step ${multiFormState.currentStepNum}`,
+      eventLabel: this.state.tool.title,
+    });
   }
 }
 
