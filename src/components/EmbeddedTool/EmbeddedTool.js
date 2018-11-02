@@ -38,11 +38,12 @@ class EmbeddedTool extends Component {
     );
   }
   onUpdateProgress = multiFormState => {
-    console.log("onUpdateProgress", multiFormState);
+    // console.log("onUpdateProgress", multiFormState);
     if (window.parent !== window) {
       window.parent.postMessage(multiFormState, "*");
     }
-    this.trackStepChange(multiFormState);
+    document.body.scrollTop = document.documentElement.scrollTop = 0;
+    // this.trackStepChange(multiFormState);
   };
   onMessage = evt => {
     try {

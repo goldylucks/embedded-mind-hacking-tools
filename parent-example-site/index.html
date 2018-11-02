@@ -36,6 +36,7 @@
 
   function onMessage(evt) {
     console.log("[MESSAGE FROM TOOL IFRAME]", evt.data, evt);
+    // document.body.scrollTop = document.documentElement.scrollTop = 0;
   }
 
   function getIframeSource() {
