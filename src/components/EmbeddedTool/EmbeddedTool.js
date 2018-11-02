@@ -40,15 +40,15 @@ class EmbeddedTool extends Component {
   onUpdateProgress = multiFormState => {
     // console.log("onUpdateProgress", multiFormState);
     if (window.parent !== window) {
-      window.parent.postMessage(multiFormState, "*");
+      window.parent.postMessage({ action: "step change" }, "*");
     }
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     // this.trackStepChange(multiFormState);
   };
   onMessage = evt => {
     try {
-      const message = JSON.parse(evt.data);
-      console.log("[MESSAGE FROM PARENT]", message, evt);
+      // const message = JSON.parse(evt.data);
+      console.log("[MESSAGE FROM PARENT]", evt);
     } catch (err) {
       console.error(
         "error receiving message from parent. make sure you send a stringifed valid json",
@@ -71,8 +71,8 @@ class EmbeddedTool extends Component {
       }
       // console.log("Tool Loaded", tool);
       this.setState({ isLoaded: true, tool });
-      window.addEventListener("message", this.onMessage);
-      this.trackLoaded();
+      // window.addEventListener("message", this.onMessage);
+      // this.trackLoaded();
     } catch (err) {
       console.log("Error loading tool", err.response);
       this.setState({ isLoaded: true, error: err.message });
