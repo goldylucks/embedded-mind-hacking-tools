@@ -30,13 +30,11 @@ class MultiStepForm extends React.Component {
     answerByStep: PropTypes.object.isRequired,
     price: PropTypes.number.isRequired,
     stepsStack: PropTypes.array.isRequired,
-    hideSubscribeButton: PropTypes.bool,
     onUpdateProgress: PropTypes.func.isRequired,
     scrollTop: PropTypes.func,
   };
   static defaultProps = {
     path: "",
-    hideSubscribeButton: false,
     scrollTop,
   };
 
@@ -76,7 +74,6 @@ class MultiStepForm extends React.Component {
         {this.renderAnswers()}
         {this.renderStars()}
         {this.renderBack()}
-        {this.renderSubscribe()}
       </div>
     );
   }
@@ -288,21 +285,6 @@ class MultiStepForm extends React.Component {
       >
         Back
       </button>
-    );
-  }
-
-  renderSubscribe() {
-    const { hideSubscribeButton } = this.props;
-    if (hideSubscribeButton) {
-      return null;
-    }
-    return (
-      <ExternalA
-        href={MESSENGER_LINK_INNER_CIRCLE}
-        className="btn btn-secondary btn-sm"
-      >
-        Subscribe to future tools
-      </ExternalA>
     );
   }
 
