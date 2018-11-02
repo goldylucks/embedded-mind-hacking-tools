@@ -1,5 +1,8 @@
+// @flow
+
 import React, { Component } from "react";
 import axios from "axios";
+import mixpanel from "mixpanel-browser";
 
 import reviewSteps from "../MultiStepForm/reviewSteps";
 import MultiStepForm from "../MultiStepForm";
@@ -38,6 +41,7 @@ class EmbeddedTool extends Component {
     );
   }
   onUpdateProgress = multiFormState => {
+    // TODO handle completion of tool
     console.log("onUpdateProgress", multiFormState);
     if (window.parent !== window) {
       window.parent.postMessage(multiFormState, "*");
@@ -57,14 +61,13 @@ class EmbeddedTool extends Component {
     }
   };
   async fetchTool() {
-    const toolSlug = getToolFromUrl();
-    if (!supportedSlugs.includes(toolSlug)) {
+    if (!supportedSlugs.includes(this.toolSlug)) {
       this.setState({ isLoaded: true, error: "Tool doesn't exist" });
-      this.trackToolSlugDoesntExist(toolSlug);
+      this.trackToolSlugDoesntExist(this.toolSlug);
       return;
     }
     try {
-      const { data: tool } = await axios.get(getToolApiPath(toolSlug));
+      const { data: tool } = await axios.get(this.toolApiEndpoint);
       if (tool.hasReview) {
         tool.steps = tool.steps.concat(reviewSteps);
       }
@@ -83,16 +86,23 @@ class EmbeddedTool extends Component {
       hitType: "event",
       eventCategory: "Mind Tool",
       eventAction: "Tool Loaded",
-      eventLabel: this.state.tool.title,
+      eventLabel: this.toolTitle,
+    });
+    mixpanel.track("Tool Loaded", {
+      toolTitle: this.toolTitle,
+      toolSlug: this.toolSlug,
     });
   }
 
-  trackToolSlugDoesntExist(toolSlug) {
+  trackToolSlugDoesntExist() {
     window.ga("send", {
       hitType: "event",
       eventCategory: "Mind Tool",
       eventAction: "Tool slug doesn't exist",
-      eventLabel: toolSlug,
+      eventLabel: this.toolSlug,
+    });
+    mixpanel.track("Tool slug doesnt exist", {
+      toolSlug: this.toolSlug,
     });
   }
 
@@ -101,17 +111,26 @@ class EmbeddedTool extends Component {
       hitType: "event",
       eventCategory: "Mind Tool",
       eventAction: `Go To Step ${multiFormState.currentStepNum}`,
-      eventLabel: this.state.tool.title,
+      eventLabel: this.toolTitle,
     });
+    mixpanel.track("Go to step", {
+      toolTitle: this.toolTitle,
+      toolSlug: this.toolSlug,
+      step: Number(multiFormState.currentStepNum),
+    });
+  }
+
+  get toolSlug() {
+    return window.location.pathname.split("/")[2];
+  }
+
+  get toolApiEndpoint() {
+    return `https://www.adamgoldman.me/api/tools/${this.toolSlug}`;
+  }
+
+  get toolTitle() {
+    return this.state.tool.title;
   }
 }
 
 export default EmbeddedTool;
-
-function getToolFromUrl() {
-  return window.location.pathname.split("/")[2];
-}
-
-function getToolApiPath(toolSlug) {
-  return `https://www.adamgoldman.me/api/tools/${toolSlug}`;
-}
