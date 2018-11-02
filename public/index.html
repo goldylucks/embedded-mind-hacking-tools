@@ -4,28 +4,28 @@
 <head>
   <!-- Google Analytics -->
   <script>
-    window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
-    const isEmbedded = window !== window.parent
-    console.log('isEmbedded', isEmbedded)
-    const hostingSite = isEmbedded
-      ? document.referrer.split('/')[2]
-      : window.location.host
-    const fullUrl = isEmbedded
-      ? document.referrer
-      : window.location.href
-    const gaOptions = {
-      referrer: hostingSite,
-      location: fullUrl,
-    }
-    console.log('gaOptions', gaOptions)
-    ga('create', 'UA-101088298-2', 'auto', gaOptions)
-    ga('set', 'dimension1', hostingSite);
-    ga('set', 'dimension2', fullUrl);
-    ga(function (tracker) {
-      console.log('dimension1 (Hosting Site): ', tracker.get('dimension1'))
-      console.log('dimension1 (Full URL): ', tracker.get('dimension2'))
-    });
-    ga('send', 'pageview');
+    // window.ga = window.ga || function () { (ga.q = ga.q || []).push(arguments) }; ga.l = +new Date;
+    // const isEmbedded = window !== window.parent
+    // console.log('isEmbedded', isEmbedded)
+    // const hostingSite = isEmbedded
+    //   ? document.referrer.split('/')[2]
+    //   : window.location.host
+    // const fullUrl = isEmbedded
+    //   ? document.referrer
+    //   : window.location.href
+    // const gaOptions = {
+    //   referrer: hostingSite,
+    //   location: fullUrl,
+    // }
+    // console.log('gaOptions', gaOptions)
+    // ga('create', 'UA-101088298-2', 'auto', gaOptions)
+    // ga('set', 'dimension1', hostingSite);
+    // ga('set', 'dimension2', fullUrl);
+    // ga(function (tracker) {
+    //   console.log('dimension1 (Hosting Site): ', tracker.get('dimension1'))
+    //   console.log('dimension1 (Full URL): ', tracker.get('dimension2'))
+    // });
+    // ga('send', 'pageview');
   </script>
   <script async src='https://www.google-analytics.com/analytics.js'></script>
   <!-- End Google Analytics -->

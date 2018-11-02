@@ -69,7 +69,7 @@ class EmbeddedTool extends Component {
       if (tool.hasReview) {
         tool.steps = tool.steps.concat(reviewSteps);
       }
-      console.log("Tool Loaded", tool);
+      // console.log("Tool Loaded", tool);
       this.setState({ isLoaded: true, tool });
       window.addEventListener("message", this.onMessage);
       this.trackLoaded();
