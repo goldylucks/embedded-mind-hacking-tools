@@ -4,7 +4,7 @@ import axios from "axios";
 import reviewSteps from "../MultiStepForm/reviewSteps";
 import MultiStepForm from "../MultiStepForm";
 
-const supportedSlugs = ["mark-b4b-rewind", "embedded-example"];
+// const supportedSlugs = ["embedded-example"];
 
 class EmbeddedTool extends Component {
   state = {
@@ -59,11 +59,11 @@ class EmbeddedTool extends Component {
   };
   async fetchTool() {
     const toolSlug = getToolFromUrl();
-    if (!supportedSlugs.includes(toolSlug)) {
-      this.setState({ isLoaded: true, error: "Tool doesn't exist" });
-      this.trackToolSlugDoesntExist(toolSlug);
-      return;
-    }
+    // if (!supportedSlugs.includes(toolSlug)) {
+    //   this.setState({ isLoaded: true, error: "Tool doesn't exist" });
+    //   this.trackToolSlugDoesntExist(toolSlug);
+    //   return;
+    // }
     try {
       const { data: tool } = await axios.get(getToolApiPath(toolSlug));
       if (tool.hasReview) {
