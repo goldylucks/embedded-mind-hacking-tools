@@ -113,5 +113,5 @@ function getToolFromUrl() {
 }
 
 function getToolApiPath(toolSlug) {
-  return `https://www.adamgoldman.me/api/tools/${toolSlug}`;
+  return `https://adamgoldman.herokuapp.com/api/tools/${toolSlug}`;
 }

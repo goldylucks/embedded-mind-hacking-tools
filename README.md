@@ -1,4 +1,4 @@
-This project enables embedding the [mind hacking tools](https://www.adamgoldman.me/tools) in parent sites as an iframe.
+This project enables embedding the [mind hacking tools](https://adamgoldman.herokuapp.com/tools) in parent sites as an iframe.
 
 # Demo
 
@@ -27,7 +27,7 @@ $ npm run deployExample
 
 # Adding support for a tool
 
-1.  make sure tool exists on [main site](https://www.adamgoldman.me) (could be in draft mode)
+1.  make sure tool exists on [main site](https://adamgoldman.herokuapp.com) (could be in draft mode)
 1.  add tool slug to `supportedSlugs`
 1.  start dev server to test (see [Develop](#Develop))
 1.  open browser at `http://localhost:3000/tool/TOOL_SLUG_HERE`
