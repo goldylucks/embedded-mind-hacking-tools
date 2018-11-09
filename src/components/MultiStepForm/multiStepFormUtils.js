@@ -89,10 +89,7 @@ export const stateForReviewRating = (rating, steps) => ({
   currentStepNum,
 }) => ({
   answerByStep: { ...answerByStep, [currentStepNum]: String(rating) },
-  currentStepNum: stepNumById(
-    rating <= 3 ? "finalComments" : "choosePaymentAmount",
-    steps
-  ),
+  currentStepNum: stepNumById("finalComments", steps),
 });
 
 export const stepNumById = (id, steps) => steps.findIndex(s => s.id === id);

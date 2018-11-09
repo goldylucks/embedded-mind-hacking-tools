@@ -127,9 +127,7 @@ class MultiStepForm extends React.Component {
             aria-describedby="inputHelp"
           />
           <small id="inputHelp" className="form-text text-muted">
-            <ExternalA href="/privacy" target="_blank">
-              Privacy is sacred. Your data is safe.
-            </ExternalA>
+            Your data is safe.
           </small>
         </div>
         <button type="submit" className="btn btn-primary">
@@ -159,9 +157,7 @@ class MultiStepForm extends React.Component {
             aria-describedby="inputHelp"
           />
           <small id="inputHelp" className="form-text text-muted">
-            <ExternalA href="/privacy" target="_blank">
-              Privacy is sacred. Your data is safe.
-            </ExternalA>
+            Your data is safe.
           </small>
         </div>
         <button type="submit" className="btn btn-primary">
@@ -310,6 +306,10 @@ class MultiStepForm extends React.Component {
       price,
       goToStepById,
     } = this.getAnswerByAidx(aIdx);
+    if (text === "Click to Finish") {
+      this.props.onFinish(answerByStep);
+      return;
+    }
     answerByStep[this.state.currentStepNum] = text;
     this.setState({ answerByStep });
     if (price) {
@@ -404,14 +404,6 @@ class MultiStepForm extends React.Component {
   }
 
   onStarReviewRating = rating => {
-    if (
-      rating <= 2 &&
-      global.confirm(
-        "Glad you are being honest with me and yourself. \nI'd like to hear how I can help you with this and what didn't you like.\n\n click \"ok\" to start a conversation with me on messenger"
-      )
-    ) {
-      window.open(MESSENGER_LINK_TOOL_CONCERN);
-    }
     this.setState(stateForReviewRating(rating, this.props.steps));
     this.props.scrollTop();
   };

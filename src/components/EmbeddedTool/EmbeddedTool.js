@@ -4,8 +4,6 @@ import axios from "axios";
 import reviewSteps from "../MultiStepForm/reviewSteps";
 import MultiStepForm from "../MultiStepForm";
 
-// const supportedSlugs = ["embedded-example"];
-
 class EmbeddedTool extends Component {
   state = {
     isLoaded: false,
@@ -33,11 +31,13 @@ class EmbeddedTool extends Component {
         currentStepNum={0}
         price={0}
         stepsStack={[]}
+        onFinish={this.onFinish}
         onUpdateProgress={this.onUpdateProgress}
       />
     );
   }
   onUpdateProgress = multiFormState => {
+    console.log(multiFormState);
     // console.log("onUpdateProgress", multiFormState);
     if (window.parent !== window) {
       window.parent.postMessage({ action: "step change" }, "*");
@@ -45,6 +45,40 @@ class EmbeddedTool extends Component {
     document.body.scrollTop = document.documentElement.scrollTop = 0;
     // this.trackStepChange(multiFormState);
   };
+
+  onFinish = answerByStep => {
+    const data = {
+      steps: this.state.tool.steps,
+      title: this.state.tool.title,
+      rating: this.getRatingFromAnswerByStep(answerByStep),
+      wpUserId: getUserIdFromUrl(),
+      answerByStep,
+    };
+    console.log(data);
+    axios
+      .post("https://adamgoldman.herokuapp.com/api/toolResponses", data)
+      // .post("http://localhost:3000/api/toolResponses", data)
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  getRatingFromAnswerByStep(answerByStep) {
+    let rating;
+    Object.keys(answerByStep)
+      .reverse()
+      .forEach(key => {
+        const answer = answerByStep[key];
+        if (!isNaN(answer) && Number(answer) >= 1 && Number(answer) <= 5) {
+          rating = Number(answer);
+        }
+      });
+    return rating;
+  }
+
   onMessage = evt => {
     try {
       // const message = JSON.parse(evt.data);
@@ -69,6 +103,7 @@ class EmbeddedTool extends Component {
       if (tool.hasReview) {
         tool.steps = tool.steps.concat(reviewSteps);
       }
+      console.log(tool);
       // console.log("Tool Loaded", tool);
       this.setState({ isLoaded: true, tool });
       // window.addEventListener("message", this.onMessage);
@@ -113,6 +148,11 @@ function getToolFromUrl() {
   return window.location.pathname.split("/")[2];
 }
 
+function getUserIdFromUrl() {
+  return window.location.search.split("user=")[1];
+}
+
 function getToolApiPath(toolSlug) {
+  // return `http://localhost:3000/api/tools/${toolSlug}`;
   return `https://adamgoldman.herokuapp.com/api/tools/${toolSlug}`;
 }
