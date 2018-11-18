@@ -20,7 +20,7 @@
     "postbuild": "cp build/index.html build/200.html",
     "test": "react-scripts test --env=jsdom",
     "predeploy": "npm run build",
-    "deploy": "surge -d mind-hacking-tools.surge.sh -p build",
+    "deploy": "surge -d https://mind-hacking-tools.surge.sh -p build",
     "predeployExample": "echo 'Made changes to embedded tools? Make sure you deploy them as well!'",
     "deployExample": "surge -d mind-hacking-tools-example.surge.sh -p parent-example-site",
     "precommit": "pretty-quick --staged",
