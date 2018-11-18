@@ -2,12 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import ReactStars from "react-stars";
 
-import {
-  MESSENGER_LINK_TOOL_CONCERN,
-  MESSENGER_LINK_INNER_CIRCLE,
-} from "../../constants";
 import Markdown from "../../components/Markdown";
-import ExternalA from "../../components/ExternalA";
 import { isMobile } from "../../utils";
 
 import {
@@ -252,6 +247,9 @@ class MultiStepForm extends React.Component {
           path={this.props.path}
           answers={answers}
           onSubmit={this.submitMultipleChoiceAnswer}
+          onSaveAnswersToDb={() =>
+            this.props.onSaveAnswersToDb(this.state.answerByStep)
+          }
           onSubmitOther={this.submitMultipleChoiceOtherAnswer}
         />
       </div>
@@ -286,12 +284,15 @@ class MultiStepForm extends React.Component {
 
   onInputSubmit = evt => {
     evt.preventDefault();
-    const { goToStepByNum } = this.currentStep();
+    const { goToStepByNum, saveAnswersToDb } = this.currentStep();
+    if (saveAnswersToDb) {
+      this.props.onSaveAnswersToDb(this.state.answerByStep);
+    }
     if (goToStepByNum) {
       this.goToStep(Number(goToStepByNum), {
         shouldResetPreviousAnswers:
           Number(goToStepByNum) < this.state.currentStepNum,
-      }); // eslint-disable-line max-len
+      });
     } else {
       this.next();
     }
@@ -306,10 +307,6 @@ class MultiStepForm extends React.Component {
       price,
       goToStepById,
     } = this.getAnswerByAidx(aIdx);
-    if (text === "Click to Finish") {
-      this.props.onFinish(answerByStep);
-      return;
-    }
     answerByStep[this.state.currentStepNum] = text;
     this.setState({ answerByStep });
     if (price) {

@@ -1,11 +1,8 @@
-/* eslint-disable max-len */
-
 import {
-  MESSENGER_LINK_WELCOME,
-  MESSENGER_LINK_BOOK_SESSION,
-  MESSENGER_LINK_INNER_CIRCLE,
+  FB_GROUP,
+  MESSENGER_LINK_TALK_AT_END_OF_MODULE,
+  MODULES_PAGE,
 } from "../../constants";
-
 export default [
   {
     title: "Review - most useful",
@@ -23,6 +20,7 @@ export default [
   {
     title: "Final comments & suggestions",
     id: "finalComments",
+    saveAnswersToDb: true,
     description: `Do you want to be even MORE awesome than what you already are? 🔥
 
 Help me improve this process! 🙏
@@ -38,11 +36,20 @@ Please don’t hold back. I take everything as constructive feedback.`,
     answers: [],
   },
   {
-    title: "Finish",
-    description: "Click the button below to finish this process",
+    title: "Next steps",
+    description: "What would you like to do next my friend?",
     answers: [
       {
-        text: "Click to Finish",
+        text: "Share on the FB group",
+        linkNew: FB_GROUP,
+      },
+      {
+        text: "Talk to me about your experience",
+        linkNew: MESSENGER_LINK_TALK_AT_END_OF_MODULE,
+      },
+      {
+        text: "Choose next mind journey experience",
+        linkNew: MODULES_PAGE,
       },
     ],
   },

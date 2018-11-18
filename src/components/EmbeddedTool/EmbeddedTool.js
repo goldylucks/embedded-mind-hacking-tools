@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
+import queryString from "query-string";
 
 import reviewSteps from "../MultiStepForm/reviewSteps";
 import MultiStepForm from "../MultiStepForm";
@@ -31,7 +32,7 @@ class EmbeddedTool extends Component {
         currentStepNum={0}
         price={0}
         stepsStack={[]}
-        onFinish={this.onFinish}
+        onSaveAnswersToDb={this.saveAnswersToDb}
         onUpdateProgress={this.onUpdateProgress}
       />
     );
@@ -46,12 +47,14 @@ class EmbeddedTool extends Component {
     // this.trackStepChange(multiFormState);
   };
 
-  onFinish = answerByStep => {
+  saveAnswersToDb = answerByStep => {
     const data = {
       steps: this.state.tool.steps,
       title: this.state.tool.title,
       rating: this.getRatingFromAnswerByStep(answerByStep),
-      wpUserId: getUserIdFromUrl(),
+      wpUserId: getKeyFromQuery("wpUserId"),
+      firstName: getKeyFromQuery("firstName"),
+      lastName: getKeyFromQuery("lastName"),
       answerByStep,
     };
     console.log(data);
@@ -92,19 +95,12 @@ class EmbeddedTool extends Component {
     }
   };
   async fetchTool() {
-    const toolSlug = getToolFromUrl();
-    // if (!supportedSlugs.includes(toolSlug)) {
-    //   this.setState({ isLoaded: true, error: "Tool doesn't exist" });
-    //   this.trackToolSlugDoesntExist(toolSlug);
-    //   return;
-    // }
+    const toolSlug = getKeyFromQuery("toolSlug");
     try {
       const { data: tool } = await axios.get(getToolApiPath(toolSlug));
       if (tool.hasReview) {
         tool.steps = tool.steps.concat(reviewSteps);
       }
-      console.log(tool);
-      // console.log("Tool Loaded", tool);
       this.setState({ isLoaded: true, tool });
       // window.addEventListener("message", this.onMessage);
       // this.trackLoaded();
@@ -144,12 +140,8 @@ class EmbeddedTool extends Component {
 
 export default EmbeddedTool;
 
-function getToolFromUrl() {
-  return window.location.pathname.split("/")[2];
-}
-
-function getUserIdFromUrl() {
-  return window.location.search.split("user=")[1];
+function getKeyFromQuery(key) {
+  return queryString.parse(window.location.search)[key];
 }
 
 function getToolApiPath(toolSlug) {

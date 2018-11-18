@@ -5,7 +5,6 @@ import cx from "classnames";
 
 import ExternalA from "../../components/ExternalA";
 import { MESSENGER_LINK_TOOL_CONCERN } from "../../constants";
-import { getFbShareUrl } from "../../utils/fbUtils";
 
 type Props = {
   answers: Array<any>,
@@ -23,26 +22,20 @@ class Answers extends React.Component {
   props: Props;
 
   render() {
-    const { answers, onSubmit, path, isPulsating } = this.props;
+    const { answers, onSubmit, onSaveAnswersToDb, isPulsating } = this.props;
     return (
       <div className={cx("answer-group", { pulsating: isPulsating })}>
         {answers.map((answer, idx) => {
           let html;
+          if (answer.isSaveAnswersToDb) {
+            onSaveAnswersToDb();
+          }
           if (answer.isConcern) {
             html = (
               <ExternalA
                 className="btn btn-primary btn-fixed"
                 onClick={this.concernClick}
                 href={MESSENGER_LINK_TOOL_CONCERN}
-              >
-                {answer.text}
-              </ExternalA>
-            );
-          } else if (answer.isFbShare) {
-            html = (
-              <ExternalA
-                className="btn btn-primary btn-fixed"
-                href={getFbShareUrl(path)}
               >
                 {answer.text}
               </ExternalA>
