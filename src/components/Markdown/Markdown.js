@@ -7,7 +7,7 @@ const Markdown = props => (
   <ReactMarkdown
     {...props}
     renderers={{
-      Link: linkProps => {
+      link: linkProps => {
         if (linkProps.href === "YtEmbedd") {
           return <YtEmbedd src={linkProps.children} />;
         }
