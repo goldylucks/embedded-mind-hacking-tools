@@ -37,7 +37,9 @@
     }
 
     function onMessage(evt) {
-      console.log("[MESSAGE FROM TOOL IFRAME]", evt.data, evt);
+      if (evt.origin === "http://localhost:3000") {
+        console.log("[MESSAGE FROM TOOL IFRAME]", evt.data);
+      }
       // document.body.scrollTop = document.documentElement.scrollTop = 0;
     }
 

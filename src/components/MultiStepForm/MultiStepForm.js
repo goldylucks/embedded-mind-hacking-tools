@@ -19,7 +19,7 @@ import Answers from "./Answers";
 class MultiStepForm extends React.Component {
   static propTypes = {
     steps: PropTypes.array.isRequired,
-    hiddenFields: PropTypes.array.isRequired,
+    hiddenFields: PropTypes.object.isRequired,
     path: PropTypes.string,
     currentStepNum: PropTypes.number.isRequired,
     answerByStep: PropTypes.object.isRequired,

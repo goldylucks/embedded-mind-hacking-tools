@@ -29,6 +29,7 @@ class EmbeddedTool extends Component {
       <MultiStepForm
         {...tool}
         answerByStep={{}}
+        hiddenFields={getHiddenFieldsFromQuery()}
         currentStepNum={0}
         price={0}
         stepsStack={[]}
@@ -60,7 +61,7 @@ class EmbeddedTool extends Component {
     console.log(data);
     axios
       .post("https://adamgoldman.herokuapp.com/api/toolResponses", data)
-      // .post("http://localhost:3000/api/toolResponses", data)
+      // .post("http://localhost:3001/api/toolResponses", data)
       .then(res => {
         console.log(res);
       })
@@ -96,6 +97,9 @@ class EmbeddedTool extends Component {
   };
   async fetchTool() {
     const toolSlug = getKeyFromQuery("toolSlug");
+    if (!toolSlug) {
+      return console.error("please provide ?toolSlug=SLUG");
+    }
     try {
       const { data: tool } = await axios.get(getToolApiPath(toolSlug));
       if (tool.hasReview) {
@@ -144,7 +148,18 @@ function getKeyFromQuery(key) {
   return queryString.parse(window.location.search)[key];
 }
 
+function getHiddenFieldsFromQuery() {
+  const queryObject = queryString.parse(window.location.search);
+  return Object.keys(queryObject).reduce((acc, key) => {
+    if (key.startsWith("hf_")) {
+      const hf = key.replace("hf_", "");
+      acc[hf] = queryObject[key];
+    }
+    return acc;
+  }, {});
+}
+
 function getToolApiPath(toolSlug) {
-  // return `http://localhost:3000/api/tools/${toolSlug}`;
+  // return `http://localhost:3001/api/tools/${toolSlug}`;
   return `https://adamgoldman.herokuapp.com/api/tools/${toolSlug}`;
 }
